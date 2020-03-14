@@ -3,12 +3,12 @@ from typing import List, Any
 
 import pytest
 
-from luabins import encode_luabin, decode_luabin
+from luabins import encode_luabins, decode_luabins
 
 
 def assert_save_load(value: List[Any], comparison_value=None):
     comparison_value = comparison_value or value
-    assert decode_luabin(BytesIO(encode_luabin(value))) == comparison_value
+    assert decode_luabins(BytesIO(encode_luabins(value))) == comparison_value
 
 
 def test_nil():

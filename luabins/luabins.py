@@ -5,6 +5,7 @@ from typing import Any, List, Dict
 from luabins.byte_utils import _read_int, _read_short_short_int, _read_number, _read_string, _build_number, \
     _build_string
 from luabins.constants import *
+from luabins.lua_table_key import LuaTableKey
 
 
 def _read_table(stream: BytesIO) -> Dict[Any, Any]:
@@ -19,11 +20,17 @@ def _read_table(stream: BytesIO) -> Dict[Any, Any]:
 
     for i in range(total_size):
         key = _load_value(stream)
+        if isinstance(key, dict):
+            key = LuaTableKey(key)
         if key is None:
             raise Exception("Key in a table cannot be none")
         elif isinstance(key, float) and math.isnan(key):
             raise Exception("Key may not be NaN")
-        table[key] = _load_value(stream)
+        try:
+            table[key] = _load_value(stream)
+        except:
+            import pdb;
+            pdb.set_trace()
 
     return table
 
@@ -36,6 +43,8 @@ def _build_table(table: Dict[Any, Any]) -> bytes:
     result = array_size.to_bytes(LUA_INT_LENGTH, LUA_BYTEORDER) + hash_size.to_bytes(LUA_INT_LENGTH, LUA_BYTEORDER)
 
     for (key, value) in table.items():
+        if isinstance(key, LuaTableKey):
+            key = key.inner
         result += _save_value(key)
         result += _save_value(value)
 

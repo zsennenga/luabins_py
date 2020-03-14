@@ -1,16 +1,16 @@
 import os
 
-from luabins import decode_luabin, encode_luabin
+from luabins import decode_luabins, encode_luabins
 
 
 def open_and_assert(filename, expected):
     path = os.path.join(os.path.dirname(__file__), filename)
     with open(path, "rb") as f:
-        assert decode_luabin(f) == expected
+        assert decode_luabins(f) == expected
 
     path = os.path.join(os.path.dirname(__file__), "output_" + filename)
     with open(path, "wb") as f:
-        f.write(encode_luabin(expected))
+        f.write(encode_luabins(expected))
 
 
 def test_integration():
