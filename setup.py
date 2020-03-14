@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name='luabins_py',
-    version='1.0.0',
+    version='1.1.0',
     packages=['luabins'],
     url='https://github.com/zsennenga/luabins_py',
     license='MIT License',
