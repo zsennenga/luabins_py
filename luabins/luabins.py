@@ -90,10 +90,10 @@ def _save_value(value: Any) -> bytes:
         raise Exception(f"Unknown type {type(value)}")
 
 
-def decode_luabins(stream: BytesIO, ignore_max_items: bool = True) -> List[Any]:
+def decode_luabins(stream: BytesIO, respect_max_items: bool = False) -> List[Any]:
     num_items = _read_short_short_int(stream)
 
-    if num_items > 250 and ignore_max_items:
+    if num_items > 250 and respect_max_items:
         raise Exception("Max items in a serialized blob for luabin is 250")
 
     values = []
