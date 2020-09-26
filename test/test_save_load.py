@@ -39,6 +39,10 @@ def test_string():
     assert_save_load(["test"])
 
 
+def test_complex_string():
+    assert_save_load(["sauté"])
+
+
 def test_table():
     assert_save_load([{}])
     assert_save_load([{"test": "test"}])

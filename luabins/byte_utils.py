@@ -30,6 +30,9 @@ def _read_string(stream: BytesIO) -> str:
 
     string_bytes = _read_bytes_or_raise(stream, length)
 
+    if not string_bytes:
+        return ""
+
     return string_bytes.decode(LUA_STR_ENCODING)
 
 
@@ -46,7 +49,7 @@ def _build_number(value: float) -> bytes:
 
 
 def _build_string(value: str) -> bytes:
-    len_bytes = len(value).to_bytes(LUA_INT_LENGTH, LUA_BYTEORDER)
     str_bytes = value.encode(LUA_STR_ENCODING)
+    len_bytes = len(str_bytes).to_bytes(LUA_INT_LENGTH, LUA_BYTEORDER)
 
     return len_bytes + str_bytes

@@ -26,11 +26,8 @@ def _read_table(stream: BytesIO) -> Dict[Any, Any]:
             raise Exception("Key in a table cannot be none")
         elif isinstance(key, float) and math.isnan(key):
             raise Exception("Key may not be NaN")
-        try:
-            table[key] = _load_value(stream)
-        except:
-            import pdb;
-            pdb.set_trace()
+
+        table[key] = _load_value(stream)
 
     return table
 
